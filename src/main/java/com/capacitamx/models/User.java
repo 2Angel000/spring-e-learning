@@ -14,11 +14,9 @@ public class User {
     private String password;
     private Set<Role> roles;
 
-    public User(String username, String email, String encryptedPassword, Set<Role> roles) {
-    }
 
-    public User(String id, String username, String email, String password, Set<Role> roles) {
-        this.id = id;
+    public User(){}
+    public User(String username, String email, String password, Set<Role> roles) {
         this.username = username;
         this.email = email;
         this.password = password;
