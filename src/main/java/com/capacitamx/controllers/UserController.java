@@ -22,13 +22,14 @@ public class UserController{
     }
 
     @GetMapping("/{id}") // http://localhost:8080/api/users/profesor1 -> ver por contacto
-    public Optional<User> getUserByUsername(@PathVariable String username){
-        return userService.getUserByUsername(username);
+    public ResponseEntity<Optional<User>> getUserByUsername(@PathVariable String id){
+        Optional<User> user = userService.getUserById(id);
+        return user.isPresent() ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/register")
-    public User registerUser(@RequestBody User user){
-        return userService.saveUser(user);
+    public ResponseEntity<User> registerUser(@RequestBody User user){
+        return ResponseEntity.ok(userService.saveUser(user));
     }
 
     @PutMapping("/{id}")
@@ -36,19 +37,15 @@ public class UserController{
         User updateUser = userService.updateUser(id, userDetails);
         return ResponseEntity.ok(updateUser);
     }
-    /*
-    * {
-                "id": "67dbbc465a55dd0535569d1c",
-                "username": "profesor2",
-                "email": "profesor2@example.com",
-                "password": "1234561",
-                "roles": [
-                {
-                "id": null,
-                //"name": "ADMIN"}]
-                },
-                {
-    * */
+
+    // Asignar roles a un usuario
+    //Método: PUT
+    //URL: http://localhost:8080/users/{id}/roles
+    //["ADMIN", "PROFESOR"]
+    @PutMapping("/{id}/roles")
+    public ResponseEntity<User> updateUserRoles(@PathVariable String id, @RequestBody List<String> roleNames){
+        return ResponseEntity.ok(userService.updateUserRoles(id, roleNames));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable String id){
