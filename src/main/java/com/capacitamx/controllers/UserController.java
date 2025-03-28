@@ -21,7 +21,7 @@ public class UserController{
         return userService.getAllUsers();
     }
 
-    @GetMapping("/{username}") // http://localhost:8080/api/users/profesor1 -> ver por contacto
+    @GetMapping("/{id}") // http://localhost:8080/api/users/profesor1 -> ver por contacto
     public Optional<User> getUserByUsername(@PathVariable String username){
         return userService.getUserByUsername(username);
     }
