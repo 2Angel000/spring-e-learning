@@ -39,12 +39,16 @@ public class UserController{
     }
 
     // Asignar roles a un usuario
-    //Método: PUT
     //URL: http://localhost:8080/users/{id}/roles
     //["ADMIN", "PROFESOR"]
     @PutMapping("/{id}/roles")
     public ResponseEntity<User> updateUserRoles(@PathVariable String id, @RequestBody List<String> roleNames){
         return ResponseEntity.ok(userService.updateUserRoles(id, roleNames));
+    }
+
+    @DeleteMapping("/{id}/roles/{roleName}")
+    public ResponseEntity<User> removeUserRole(@PathVariable String id, @PathVariable String roleName){
+        return ResponseEntity.ok(userService.removeUserRole(id, roleName));
     }
 
     @DeleteMapping("/{id}")

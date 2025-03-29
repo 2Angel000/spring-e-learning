@@ -78,6 +78,17 @@ public class UserService {
         );
     }
 
+    public User removeUserRole(String userId, String roleName){
+        return userRepository.findById(userId).map(user -> {
+            Set<Role> updateRoles = user.getRoles().stream()
+                    .filter(role -> role.getName().equals(roleName)) /// filtra y elimina el rol especiificado
+                    .collect(Collectors.toSet());
+            user.setRoles(updateRoles);
+            return userRepository.save(user);
+        }).orElseThrow(
+                () -> new RuntimeException("No se encontró al usuario con ID: "+userId));
+    }
+
     public void deleteUser(String id) {
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("Usuario no encontrado con ID: " + id);
