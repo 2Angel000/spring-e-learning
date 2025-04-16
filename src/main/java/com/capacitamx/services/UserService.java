@@ -34,11 +34,11 @@ public class UserService {
 
     public User saveUser(User user) {
         //verifica y asigna roles
-        user.setRoles(
-                user.getRoles().stream().map(
-                        role -> roleRepository.findByName(role.getName())
-                                .orElseThrow(() -> new RuntimeException("Role no encontrado: "+role.getName()))
-                ).collect(Collectors.toSet()));
+        Set<Role> existingRoles = user.getRoles().stream()
+                .map(role -> roleRepository.findByName(role.getName()+" el id de este role es= "+ role.getId())
+                        .orElseThrow( () -> new RuntimeException("Rol no encontrado: "+role.getName()))
+                ).collect(Collectors.toSet());
+        user.setRoles(existingRoles);
         return userRepository.save(user);
     }
 
